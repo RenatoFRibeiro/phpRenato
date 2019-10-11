@@ -1,0 +1,32 @@
+body{
+    background-color: #52525252;
+    margin: 5%;
+    font-family: 'Franklin Gothic Medium', sans-serif;
+}
+.button {
+    padding: 32px 64px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+.topbtn {
+background-color: #949494; 
+color: black; 
+border: 2px solid #3b3b3b;
+box-shadow: 0px 0px 30px grey;
+}
+.topbtn:hover {
+background-color: #3b3b3b;
+color: white;
+}
+#buttondiv{
+    text-align: center;
+}
+#boarddiv{
+    text-align: center;
+}
