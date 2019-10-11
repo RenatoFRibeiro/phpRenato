@@ -22,7 +22,6 @@ $nameErr = $idErr = $titleErr = "";
 $name = $id = $title = "";
 
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($_POST["name"])) {
     $nameErr = "Name is required";
@@ -43,14 +42,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $apiInstance = new Swagger\Client\Api\EmployeesApiControllerApi(new GuzzleHttp\Client());
   $body = new \Swagger\Client\Model\Employee(); // \Swagger\Client\Model\Employee | body
-  $body->setEmployeeName("Joao");
-  $body->setId(1);
 
+  $body->setEmployeeName($name);
+  $body->setEmployeeTitle($title);
+  $body->setId($id);
+
+
+ 
 try {
-    $apiInstance->employeesPost($body);
+  $emps = $apiInstance->employeesGet();
+  $apiInstance->employeesPost($body);
 
-    $emp = $apiInstance->employeesIdGet(1);
-    echo "ID: " . $emp->getID();
+  $emp = $apiInstance->employeesIdGet($id);
+  echo "ID: " . $emp->getID();
+  echo "<br> Name: " . $emp->getEmployeeName();
+  echo "<br> Title: " . $emp->getEmployeeTitle();
 
 } catch (Exception $e) {
     echo 'Exception when calling EmployeesApiControllerApi->employeesPost: ', $e->getMessage(), PHP_EOL;
@@ -134,6 +140,12 @@ return $data;
     <div id="listoption">
       <p>List Option</p>
       <p>List:</p>
+      <form method="post">
+        <input type="submit" name="test" id="test" value="RUN" /><br/>
+      </form>
+      <?php
+      echo strval($emps); 
+      ?>
     </div>
     <div id="editoption">
       <p>Edit Option</p>
@@ -149,41 +161,6 @@ return $data;
         <br><br>
         <input type="submit" value="Submit">
       </form>
-    </div>
-  </div>
-  <!------------------------------------------------------------------------------------>
-
-  <div class="col">
-    <div class="insideCol">
-      <h5>Employees List</h5>
-      <p>
-        <?php
-            echo $emp;
-            ?>
-      </p>
-    </div>
-  </div>
-
-
-  <div class="col getEmp">
-    <div class="insideCol">
-      <h5>Get Employee (by ID)</h5>
-      <div class="getInside" style="padding: 5px; transform: scale(0.9)">
-        <form method="post" action="index.php">
-          <label> ID: </label>
-          <input type="number" name="id">
-          <span class="error"><?php echo $idErr; ?></span>
-          <br><br>
-          <label> Nome: </label> <input type="text" name="name">
-          <span class="error"><?php echo $nameErr; ?></span>
-          <br><br>
-          <label> Title: </label>
-          <input type="text" name="title">
-          <span class="error"><?php echo $titleErr; ?></span>
-          <br><br>
-          <input type="submit" name="submit" value="Submit">
-        </form>
-      </div>
     </div>
   </div>
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
