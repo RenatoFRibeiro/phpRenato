@@ -48,6 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 try {
     $apiInstance->employeesPost($body);
+
+    $emp = $apiInstance->employeesIdGet(1);
+    echo "ID: " . $emp->getID();
+
 } catch (Exception $e) {
     echo 'Exception when calling EmployeesApiControllerApi->employeesPost: ', $e->getMessage(), PHP_EOL;
 }
