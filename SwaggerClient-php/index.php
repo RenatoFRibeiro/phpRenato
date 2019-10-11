@@ -20,7 +20,7 @@ try {
 // define variables and set to empty values
 $nameErr = $idErr = $titleErr = "";
 $name = $id = $title = "";
-
+$apiInstance = new Swagger\Client\Api\EmployeesApiControllerApi(new GuzzleHttp\Client());
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($_POST["name"])) {
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
 
-  $apiInstance = new Swagger\Client\Api\EmployeesApiControllerApi(new GuzzleHttp\Client());
+
   $body = new \Swagger\Client\Model\Employee(); // \Swagger\Client\Model\Employee | body
 
   $body->setEmployeeName($name);
@@ -118,6 +118,7 @@ return $data;
         <input type="submit" value="Submit">
       </form>
     </div>
+    <br><br><br>
     <div id="deleteoption">
       <p>Delete Option</p>
       <form action="">
@@ -127,6 +128,7 @@ return $data;
         <input type="submit" value="Submit">
       </form>
     </div>
+    <br><br><br>
     <div id="getoption">
       <p>Get Option</p>
       <form action="">
@@ -137,27 +139,34 @@ return $data;
         <input type="submit" value="Submit">
       </form>
     </div>
+    <br><br><br>
     <div id="listoption">
       <p>List Option</p>
-      <p>List:</p>
-      <form method="post">
-        <input type="submit" name="test" id="test" value="RUN" /><br/>
-      </form>
       <?php
-      echo strval($emps); 
+      require_once(__DIR__ . '/vendor/autoload.php');
+      $body_limit = 56; // int | The amount of employees returned
+      $page_limit = 56; // int | The pages to  return employees info
+      
+      try {
+          $result = $apiInstance->employeesGet($body_limit, $page_limit);
+          print_r($result);
+      } catch (Exception $e) {
+          echo 'Exception when calling EmployeesApiControllerApi->employeesGet: ', $e->getMessage(), PHP_EOL;
+      }
       ?>
     </div>
+    <br><br><br>
     <div id="editoption">
       <p>Edit Option</p>
       <form method="post" action="index.php">
         Employee ID:
-        <input type="number" name="id" value="ID">
+        <input type="number" name="id" placeholder="ID">
         <br>
         Employee Name:
-        <input type="text" name="employee name" value=" NAME">
+        <input type="text" name="employee name" placeholder=" NAME">
         <br>
         Employee Title:
-        <input type="text" name="employee title" value="TITLE">
+        <input type="text" name="employee title" placeholder="TITLE">
         <br><br>
         <input type="submit" value="Submit">
       </form>
