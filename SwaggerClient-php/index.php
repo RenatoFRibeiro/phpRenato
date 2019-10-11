@@ -43,6 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $apiInstance = new Swagger\Client\Api\EmployeesApiControllerApi(new GuzzleHttp\Client());
   $body = new \Swagger\Client\Model\Employee(); // \Swagger\Client\Model\Employee | body
+  $body->setEmployeeName("Joao");
+  $body->setId(1);
 
 try {
     $apiInstance->employeesPost($body);
