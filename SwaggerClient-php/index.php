@@ -9,8 +9,26 @@ $name = $id = $title = "";
 $apiInstance = new Swagger\Client\Api\EmployeesApiControllerApi(new GuzzleHttp\Client());
  
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-$action = $_POST['action'];
-  if ($action == "add"){
+  $action = $_POST['action'];
+
+  if($action == "get"){
+    //get
+    if (empty($_POST["id"])) {
+      $idErr = "ID is required";
+    } else {
+      $id = $_POST["id"];
+    }
+    try {
+        $result = $apiInstance->employeesIdGet($id);
+          ?><b>Name:</b> <?php print_r($result->getEmployeeName());?>&nbsp;&nbsp;&nbsp;<?php
+          ?><b>Title:</b> <?php print_r($result->getEmployeeTitle());?>&nbsp;&nbsp;&nbsp;<?php
+          ?><b>Id:</b> <?php print_r($id);?><?php
+
+    } catch (Exception $e) {
+        echo 'Exception when calling EmployeesApiControllerApi->employeesIdGet: ', $e->getMessage(), PHP_EOL;
+    }
+
+  }else  if ($action == "add"){
     // adiciona
     if (empty($_POST["name"])) {
       $nameErr = "Name is required";
@@ -52,8 +70,8 @@ $action = $_POST['action'];
     } catch (Exception $e) {
       echo 'Exception when calling EmployeesApiControllerApi->employeesIdDelete: ', $e->getMessage(), PHP_EOL;
     }
-  }else if ($action == "edit")
-  {
+  }else if ($action == "edit"){
+    //edit
     if (empty($_POST["id"])) {
       $idErr = "ID is required";
     } else {
@@ -65,7 +83,6 @@ $action = $_POST['action'];
     } catch (Exception $e) {
       echo 'Exception when calling EmployeesApiControllerApi->employeesIdDelete: ', $e->getMessage(), PHP_EOL;
     }
-    // adiciona
     if (empty($_POST["name"])) {
       $nameErr = "Name is required";
     } else {
@@ -141,7 +158,7 @@ $action = $_POST['action'];
           <p>Delete Option</p>
           <form method="post" action="index.php">
             <label> ID: </label>
-            <input type="number" name="id">
+            <input type="number" name="id" placeholder="ID">
             <span class="error"><?php echo $idErr; ?></span>
             <br><br>
             <input type="hidden" name="action" value="del"  />
@@ -151,30 +168,13 @@ $action = $_POST['action'];
         <br><br><br>
         <div id="getoption" class="hidenDiv">
           <p>Get Option</p>
-          <form action="post">
+          <form method="post" action="index.php">
             Employee ID:
-            <input type="number" name="id" value="ID">
+            <input type="number" name="id" placeholder="ID">
             <span class="error"><?php echo $idErr; ?></span>
             <br><br>
-            <?php
-            $action = $_POST['action'];
-              if($action == "get"){
-                if (empty($_POST["id"])) {
-                  $idErr = "ID is required";
-                } else {
-                  $id = $_POST["id"];
-                }
-                try {
-                  $result = $apiInstance->employeesIdGet($id);
-                  prnt_r($id);
-                  print_r($result);
-                } catch (Exception $e) {
-                  echo 'Exception when calling EmployeesApiControllerApi->employeesIdGet: ', $e->getMessage(), PHP_EOL;
-                }
-              }
-            ?>
             <input type="hidden" name="action" value="get"  />
-            <input type="submit" value="Submit">
+            <input type="submit" name="submit" value="Submit">
           </form>
         </div>
         <br><br><br>
@@ -205,15 +205,8 @@ $action = $_POST['action'];
 
               $result = $apiInstance->employeesGet($body_limit, $page_limit);
 
-              foreach ($result as list("id" => $idLis, "employee_name" => $nameLis)) {
-              while (list ($idLis, $nameLis, $titleLis) = $result) {
-                  echo "<ul>\n" .
-                      "<li>$idLis</li>\n" .
-                      "<li>$nameLis</li>\n" .
-                      "<li>$titleLis</li>\n" .
-                      "</ul>\n";
-                      break;
-                  }
+              foreach ($result as list("id" => $idLis, "employee_name" => $nameLis, "employee_title" => $titleLis)) {
+                echo "<li>Employee ID = $idLis ; Employee Name = $nameLis ; Employee Title = $titleLis\n\n</li>";
               }
           ?>
         </div>
