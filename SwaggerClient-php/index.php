@@ -7,7 +7,7 @@ include("lib/Model/Employee.php");
 $nameErr = $idErr = $titleErr = "";
 $name = $id = $title = "";
 $apiInstance = new Swagger\Client\Api\EmployeesApiControllerApi(new GuzzleHttp\Client());
- 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $action = $_POST['action'];
 
@@ -20,10 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     try {
         $result = $apiInstance->employeesIdGet($id);
-          ?><b>Name:</b> <?php print_r($result->getEmployeeName());?>&nbsp;&nbsp;&nbsp;<?php
-          ?><b>Title:</b> <?php print_r($result->getEmployeeTitle());?>&nbsp;&nbsp;&nbsp;<?php
-          ?><b>Id:</b> <?php print_r($id);?><?php
-
+        ?><b>Get result=></b><br><?php
+          ?>Employee Id: <?php print_r($id);?>&nbsp;&nbsp;&nbsp;<?php
+          ?>Employee Name: <?php print_r($result->getEmployeeName());?>&nbsp;&nbsp;&nbsp;<?php
+          ?>Employee Title: <?php print_r($result->getEmployeeTitle());?><?php
+          
     } catch (Exception $e) {
         echo 'Exception when calling EmployeesApiControllerApi->employeesIdGet: ', $e->getMessage(), PHP_EOL;
     }
@@ -52,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
       $apiInstance->employeesPost($body);
       $emp = $apiInstance->employeesIdGet($id);
-      echo "ID: " . $emp->getID();
+      echo "Employee added with ID number " . $emp->getID();
     } catch (Exception $e) {
       echo 'Exception when calling EmployeesApiControllerApi->employeesPost: ', $e->getMessage(), PHP_EOL;
     }
@@ -63,10 +64,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
       $id = $_POST["id"];
     }
-      echo "ID to delete: " . $id;
+      echo "Employee deleted, ID " . $id;
     try {
       $result = $apiInstance->employeesIdDelete($id);
-      print_r($result);
+      //print_r($result);
     } catch (Exception $e) {
       echo 'Exception when calling EmployeesApiControllerApi->employeesIdDelete: ', $e->getMessage(), PHP_EOL;
     }
@@ -105,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
       $apiInstance->employeesPost($body1);
       $emp1 = $apiInstance->employeesIdGet($id);
-      echo "ID: " . $emp1->getID();
+      echo "Employee Updated, ID " . $emp1->getID();
     } catch (Exception $e) {
       echo 'Exception when calling EmployeesApiControllerApi->employeesPost: ', $e->getMessage(), PHP_EOL;
   }
@@ -202,9 +203,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <?php
           $body_limit = 56; // int | The amount of employees returned
           $page_limit = 2; // int | The pages to  return employees info
-
               $result = $apiInstance->employeesGet($body_limit, $page_limit);
-
               foreach ($result as list("id" => $idLis, "employee_name" => $nameLis, "employee_title" => $titleLis)) {
                 echo "<li>Employee ID = $idLis ; Employee Name = $nameLis ; Employee Title = $titleLis\n\n</li>";
               }
@@ -222,55 +221,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
   </script>
-
-  <script>
-    var xpost = document.getElementById("addoption");
-    var xdelete = document.getElementById("deleteoption");
-    var xget = document.getElementById("getoption");
-    var xedit = document.getElementById("editoption");
-
-  function addoptionFunc() {
-    if (xpost.style.display === "block") {
-      xpost.style.display = "none";
-    } else {
-      xpost.style.display = "block";
-      xdelete.style.display = "none";
-      xget.style.display = "none";
-      xedit.style.display = "none";
-
-    }
-  }
-  function deleteoptionFunc() {
-    if (xdelete.style.display === "block") {
-      xdelete.style.display = "none";
-    } else {
-      xdelete.style.display = "block";
-      xpost.style.display = "none";
-      xget.style.display = "none";
-      xedit.style.display = "none";
-    }
-  }
-  function getoptionFunc() {
-    if (xget.style.display === "block") {
-      xget.style.display = "none";
-    } else {
-      xget.style.display = "block";
-      xpost.style.display = "none";
-      xdelete.style.display = "none";
-      xedit.style.display = "none";
-    }
-  }
-  function editoptionFunc() {
-    if (xedit.style.display === "block") {
-      xedit.style.display = "none";
-    } else {
-      xedit.style.display = "block";
-      xpost.style.display = "none";
-      xdelete.style.display = "none";
-      xget.style.display = "none";
-    }
-  }
-  </script>
+  <script src="script.js"></script>
 </body>
-
 </html>
